@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "872585504239",
+    "project_id": "kaun-banega-crorepati-ee083",
+    "storage_bucket": "kaun-banega-crorepati-ee083.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872585504239:android:0b3531757136a5924c421a",
+        "android_client_info": {
+          "package_name": "com.example.quiz_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872585504239-t1aoat0lknagirh67n4l5vbl070jbb0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.quiz_app",
+            "certificate_hash": "7f5d714a2043f0a00baf9baaf2232ce05f947396"
+          }
+        },
+        {
+          "client_id": "872585504239-f8u0nnbd22d6lee1ift1ri6vbje9r5ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF3yBbEOhdQbABCTIsZt5M8MHZ7hwXlCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872585504239-f8u0nnbd22d6lee1ift1ri6vbje9r5ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
