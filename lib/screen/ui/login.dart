@@ -33,15 +33,6 @@ class _LoginState extends State<Login> {
     });
   }
 
-  // checkUSer() async {
-  //   if (await auth.currentUser != null) {
-  //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuizIntroPage(),));
-  //   } else {
-  //     return Login();
-  //   }
-  // }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.amberAccent,
@@ -66,10 +57,6 @@ class _LoginState extends State<Login> {
                   Buttons.Google, onPressed: () async {
                       signinWithGoogle(context);
                       showLoaderDialog(context);
-                      // if(auth.currentUser==null){
-                      // await signinWithGoogle(context);
-                      //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuizIntroPage(),));
-                      // }
                     })
             ],
           ),
@@ -82,7 +69,7 @@ class _LoginState extends State<Login> {
       content:  Row(
         children: [
           const CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+          Container(margin: const EdgeInsets.only(left: 7),child:Text("Loading..." )),
         ],),
     );
     showDialog(barrierDismissible: true,

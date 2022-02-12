@@ -5,10 +5,16 @@ import 'package:quiz_app/screen/profile/profile.dart';
 import 'package:quiz_app/service/auth.dart';
 
 class SideNavBar extends StatelessWidget {
+  String? name;
+  String? profileUrl;
+  String? rank;
+  String? level;
+  String? money;
 
-   SideNavBar({Key? key}) : super(key: key);
-FirebaseAuth auth= FirebaseAuth.instance;
-   GoogleSignIn googleSignIn = GoogleSignIn();
+  SideNavBar({this.name, this.profileUrl, this.level, this.rank, this.money});
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +22,28 @@ FirebaseAuth auth= FirebaseAuth.instance;
       child: Material(
         color: Colors.amberAccent,
         child: ListView(
-          // padding: EdgeInsets.symmetric(horizontal: 20),
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Profile(
+                        name: name,
+                        rank: rank,
+                        level: level,
+                        profileUrl: profileUrl,
+                      ),
+                    ));
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(profileUrl.toString()),
                       radius: 40,
-                      backgroundColor: Colors.white,
                     ),
                     const SizedBox(
                       width: 20,
@@ -36,16 +51,16 @@ FirebaseAuth auth= FirebaseAuth.instance;
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          "Dilshad",
-                          style: TextStyle(
+                          "$name",
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 25),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Text("RS.50000")
+                        Text("Rs.${money.toString()}")
                       ],
                     )
                   ],
@@ -54,43 +69,65 @@ FirebaseAuth auth= FirebaseAuth.instance;
             ),
             Container(
               padding: const EdgeInsets.only(left: 25),
-              child: const Text(
-                "LeaderBoard- 23th Rank",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: Text(
+                "LeaderBoard-Rank #${rank.toString()}",
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(
               height: 40,
             ),
-            ListItem( label: "Daily Quiz",icon: Icons.quiz,context: context,ontap: (){}),
-            ListItem( label: "LeadBoard",icon: Icons.quiz,context: context,ontap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
-            }),
-            ListItem( label: "How to use",icon: Icons.quiz,context: context,ontap: (){}),
-            ListItem( label: "About us",icon: Icons.quiz,context: context,ontap: (){}),
-            ListItem( label: "Log out",icon: Icons.quiz,context: context,ontap: (){
-              signOutUser(context);
-            }),
+            ListItem(
+              label: "Daily Quiz",
+              icon: Icons.quiz,
+              context: context,
+              onTap: () {},
+            ),
+            ListItem(
+                label: "LeadBoard",
+                icon: Icons.leaderboard,
+                context: context,
+                onTap: () {}),
+            ListItem(
+                label: "How to use",
+                icon: Icons.question_answer,
+                context: context,
+                onTap: () {}),
+            ListItem(
+                label: "About us",
+                icon: Icons.face,
+                context: context,
+                onTap: () {}),
+            ListItem(
+                label: "Log out",
+                icon: Icons.logout,
+                context: context,
+                onTap: () {
+                  signOutUser(context);
+                })
           ],
         ),
       ),
     );
   }
 
-  Widget ListItem({required String label, required IconData icon, required VoidCallback ontap, required BuildContext context}) {
-    final color = Colors.white;
-    final hoverColor = Colors.white60;
+  Widget ListItem(
+      {required String label,
+      required IconData icon,
+      required BuildContext context,
+      required VoidCallback onTap}) {
+    const color = Colors.white;
+    const hoverColor = Colors.white60;
     return ListTile(
-      leading: Icon(
-        icon,
-        color: color,
-      ),
-      hoverColor: hoverColor,
-      title: Text(
-        label,
-        style: TextStyle(color: color),
-      ),
-      onTap:ontap
-    );
+        leading: Icon(
+          icon,
+          color: color,
+        ),
+        hoverColor: hoverColor,
+        title: Text(
+          label,
+          style:const TextStyle(color: color),
+        ),
+        onTap: onTap);
   }
 }
