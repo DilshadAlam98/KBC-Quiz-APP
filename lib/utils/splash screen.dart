@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/screen/ui/home.dart';
 import 'package:quiz_app/screen/ui/login.dart';
 import 'package:quiz_app/screen/ui/question.dart';
+import 'package:quiz_app/service/local_db.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -32,18 +33,14 @@ class _SplashScreenState extends State<SplashScreen>
       end: 2.0,
     ).animate(_controller);
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-              FirebaseAuth.instance.currentUser != null ? const Home() : const Login()));
-    });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _controller.dispose();
-    super.dispose();
+    // Timer(const Duration(seconds: 2), () {
+    //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //       builder: (BuildContext context) =>
+    //           FirebaseAuth.instance.currentUser != null
+    //               ? const Home()
+    //               : const Login()));
+    // });
+     chekUser();
   }
 
   @override
@@ -74,5 +71,35 @@ class _SplashScreenState extends State<SplashScreen>
         )),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void chekUser() async {
+    String? token;
+    token = await LocalDb.getUserID();
+
+    if (token != "" && token != null) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home(),
+          ));
+      print("user already signed in");
+    } else {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ));
+      print("user logged out");
+
+
+    }
   }
 }

@@ -35,20 +35,20 @@ class FireDb {
     });
   }
 
-  Future<bool> getUser() async {
-    final User? current_user = auth.currentUser;
-    String user = "";
-    await FirebaseFirestore.instance
-        .collection("user")
-        .doc(current_user!.uid)
-        .get()
-        .then((value) {
-      user = value.data().toString();
-    });
-    if (user.toString() == null) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // Future<bool> getUser() async {
+  //   final User? current_user = auth.currentUser;
+  //   String user = "";
+  //   await FirebaseFirestore.instance
+  //       .collection("user")
+  //       .doc(current_user!.uid)
+  //       .get()
+  //       .then((value) {
+  //     user = value.data().toString();
+  //   });
+  //   if (user.toString() == null) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 }
