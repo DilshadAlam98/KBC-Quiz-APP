@@ -41,7 +41,7 @@ class _ProfileState extends State<Profile> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        radius: 60,
+                        radius: 55,
                         backgroundImage: NetworkImage(widget.profileUrl.toString())
                       ),
                       Positioned(

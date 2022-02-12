@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
     //               ? const Home()
     //               : const Login()));
     // });
-     chekUser();
+    chekUser();
   }
 
   @override
@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
         // Navigator.pushNamed(context, MyHomePage.id);
       },
       child: Container(
-        color: Colors.white,
+        color: Colors.amberAccent,
         child: Center(
             child: Hero(
           tag: "heroLogo",
@@ -62,10 +62,10 @@ class _SplashScreenState extends State<SplashScreen>
           child: FadeTransition(
             //Use your animation here
             opacity: animation,
-            child: CircleAvatar(
+            child: const CircleAvatar(
               //Here you load you image
-              backgroundImage: const AssetImage("asset/img/kbc.png"),
-              radius: MediaQuery.of(context).size.width * 0.25,
+              backgroundImage: AssetImage("asset/img/kbc.png",),
+              radius: 170,
             ),
           ),
         )),
@@ -84,22 +84,22 @@ class _SplashScreenState extends State<SplashScreen>
     String? token;
     token = await LocalDb.getUserID();
 
-    if (token != "" && token != null) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Home(),
-          ));
-      print("user already signed in");
-    } else {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login(),
-          ));
-      print("user logged out");
-
-
-    }
+    Future.delayed(Duration(seconds: 4), () {
+      if (token != "" && token != null) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ));
+        print("user already signed in");
+      } else {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ));
+        print("user logged out");
+      }
+    });
   }
 }
