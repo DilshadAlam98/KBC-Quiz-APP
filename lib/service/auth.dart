@@ -1,13 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:overlay_support/overlay_support.dart';
+import 'package:quiz_app/screen/ui/home.dart';
 import 'package:quiz_app/screen/ui/login.dart';
-import 'package:quiz_app/screen/ui/quiz_intro_page.dart';
 import 'package:quiz_app/service/local_db.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'fire_db.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -37,11 +34,13 @@ Future<User?> signinWithGoogle(BuildContext context) async {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => QuizIntroPage(),
+          builder: (context) => Home(),
         ));
     fireDb.createNewUser(user!.displayName.toString(), user.email.toString(),
         user.photoURL.toString(), user.uid);
     LocalDb.saveUserID(user.uid);
+    LocalDb.saveName(currentUSer.displayName.toString());
+    LocalDb.saveProfileUrl(currentUSer.photoURL.toString());
   } catch (e) {
     Fluttertoast.showToast(msg: "Something went wrong");
     print("ERROR OCCURED IN SIGN IN $e");

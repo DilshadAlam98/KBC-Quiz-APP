@@ -11,21 +11,21 @@ class QuizIntroPage extends StatelessWidget {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: ElevatedButton(
-        child: Text("Start Quiz"),
+        child: const Text("Start Quiz"),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
         },
       ),
       appBar: AppBar(),
-      drawer: SideNavBar(),
+      // drawer: SideNavBar(),
       body: Container(
-        padding: EdgeInsets.only(bottom: 40),
+        padding: const EdgeInsets.only(bottom: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -59,20 +59,20 @@ class QuizIntroPage extends StatelessWidget {
 
   Widget introPage({required String headline, required String quizOption}) {
     return Container(
-      padding: EdgeInsets.all(18),
+      padding: const EdgeInsets.all(18),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.topic_outlined),
-              SizedBox(
+              const  Icon(Icons.topic_outlined),
+              const SizedBox(
                 width: 6,
               ),
               Text(
                 headline,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:const  TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -80,7 +80,7 @@ class QuizIntroPage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 30),
             child: Text(
               quizOption,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           )
         ],

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  String? name;
+  String? profileUrl;
+  String? rank;
+  String? level;
+  String? money;
+  Profile({
+    this.name,this.profileUrl,this.level,this.rank,this.money
+  });
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -12,9 +19,9 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile"),
+        title: const Text("Profile"),
         centerTitle: true,
-        actions: [
+        actions: const [
           Icon(Icons.share)
         ],
       ),
@@ -22,9 +29,9 @@ class _ProfileState extends State<Profile> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height / 3.3,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20),
                       bottomLeft: Radius.circular(20)),
@@ -34,34 +41,33 @@ class _ProfileState extends State<Profile> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(
-                            "https://images.unsplash.com/photo-1644289153492-0ed7bd5f5dca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=60"),
+                        radius: 60,
+                        backgroundImage: NetworkImage(widget.profileUrl.toString())
                       ),
                       Positioned(
                         bottom: 5.0,
                         right: 0.0,
                         child: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(5),
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.white
                           ),
-                          child: Icon(Icons.edit,),
+                          child: const Icon(Icons.edit,),
                         ),
                       )
                     ],
                   ),
                   Text(
-                    "Dilshad Alam",
-                    style: TextStyle(fontSize: 25, color: Colors.white),
+                   widget.name.toString(),
+                    style: const TextStyle(fontSize: 25, color: Colors.white),
                   ),
-                  Divider(
+                  const Divider(
                     thickness: 1,
                     endIndent: 20,
                     indent: 20,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -70,8 +76,8 @@ class _ProfileState extends State<Profile> {
                       Column(
                         children: [
                           Text(
-                            "45",
-                            style: TextStyle(
+                            widget.level.toString(),
+                            style: const TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
@@ -87,8 +93,8 @@ class _ProfileState extends State<Profile> {
                       ),
                       Column(
                         children: [
-                          Text("#43",
-                              style: TextStyle(
+                          Text("#${widget.rank}",
+                              style: const TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white)),
@@ -104,24 +110,24 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text(
+            const Text(
               "Learder Board",
               style: TextStyle(fontSize: 20),
             ),
             Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
-                separatorBuilder: (context, index) => Divider(
+                separatorBuilder: (context, index) => const Divider(
                   thickness: 1,
                 ),
                 itemCount: 12,
                 itemBuilder: (context, index) {
                   return ListTile(
                       title: Row(
-                        children: [
+                        children: const [
                           CircleAvatar(
                             backgroundImage: NetworkImage(
                                 "https://images.unsplash.com/photo-1644269444230-c6d1f2722e10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2MXx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=60"),
@@ -134,11 +140,11 @@ class _ProfileState extends State<Profile> {
                       ),
                       leading: Text(
                         "#${index + 1}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(
-                        "${(2000 / (index + 1)).toString().substring(0, 5)}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        (2000 / (index + 1)).toString().substring(0, 5),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ));
                 },
               ),

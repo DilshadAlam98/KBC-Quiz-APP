@@ -1,13 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:quiz_app/screen/profile/profile.dart';
 import 'package:quiz_app/service/auth.dart';
 
 class SideNavBar extends StatelessWidget {
+  String? name;
+  String? profileUrl;
+  String? rank;
+  String? level;
+  String? money;
 
-   SideNavBar({Key? key}) : super(key: key);
-FirebaseAuth auth= FirebaseAuth.instance;
-   GoogleSignIn googleSignIn = GoogleSignIn();
+  SideNavBar({this.name, this.profileUrl, this.level, this.rank, this.money});
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+  GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -15,74 +22,112 @@ FirebaseAuth auth= FirebaseAuth.instance;
       child: Material(
         color: Colors.amberAccent,
         child: ListView(
-          // padding: EdgeInsets.symmetric(horizontal: 20),
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Dilshad",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Profile(
+                        name: name,
+                        rank: rank,
+                        level: level,
+                        profileUrl: profileUrl,
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("RS.50000")
-                    ],
-                  )
-                ],
+                    ));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(profileUrl.toString()),
+                      radius: 40,
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "$name",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 25),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text("Rs.${money.toString()}")
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
             Container(
               padding: const EdgeInsets.only(left: 25),
-              child: const Text(
-                "LeaderBoard- 23th Rank",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: Text(
+                "LeaderBoard-Rank #${rank.toString()}",
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(
               height: 40,
             ),
-            ListItem( "Daily Quiz", Icons.quiz,context),
-            ListItem("LeadBoard",  Icons.leaderboard,context),
-            ListItem( "How to use",  Icons.question_answer,context),
-            ListItem( "About us",  Icons.face,context),
-            ListItem( "Log out", Icons.logout,context)
+            ListItem(
+              label: "Daily Quiz",
+              icon: Icons.quiz,
+              context: context,
+              onTap: () {},
+            ),
+            ListItem(
+                label: "LeadBoard",
+                icon: Icons.leaderboard,
+                context: context,
+                onTap: () {}),
+            ListItem(
+                label: "How to use",
+                icon: Icons.question_answer,
+                context: context,
+                onTap: () {}),
+            ListItem(
+                label: "About us",
+                icon: Icons.face,
+                context: context,
+                onTap: () {}),
+            ListItem(
+                label: "Log out",
+                icon: Icons.logout,
+                context: context,
+                onTap: () {
+                  signOutUser(context);
+                })
           ],
         ),
       ),
     );
   }
 
-  Widget ListItem( String label,  IconData icon, BuildContext context) {
-    final color = Colors.white;
-    final hoverColor = Colors.white60;
+  Widget ListItem(
+      {required String label,
+      required IconData icon,
+      required BuildContext context,
+      required VoidCallback onTap}) {
+    const color = Colors.white;
+    const hoverColor = Colors.white60;
     return ListTile(
-      leading: Icon(
-        icon,
-        color: color,
-      ),
-      hoverColor: hoverColor,
-      title: Text(
-        label,
-        style: TextStyle(color: color),
-      ),
-      onTap: ()async{
-        signOutUser(context);
-      },
-    );
+        leading: Icon(
+          icon,
+          color: color,
+        ),
+        hoverColor: hoverColor,
+        title: Text(
+          label,
+          style:const TextStyle(color: color),
+        ),
+        onTap: onTap);
   }
 }

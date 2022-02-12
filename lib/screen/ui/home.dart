@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/service/local_db.dart';
 import 'package:quiz_app/utils/side_nav_bar.dart';
 
 class Home extends StatefulWidget {
@@ -10,13 +11,43 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String? name;
+  String? profileUrl;
+  String? rank;
+  String? level;
+  String? money;
+
+  getUserDetails() async {
+    name = await LocalDb.getName();
+    profileUrl = await LocalDb.getProfileUrl();
+    rank = await LocalDb.getRank();
+    money= await LocalDb.getMoney();
+    print(money);
+    level = await LocalDb.getLevel();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amberAccent,
       ),
-      drawer:  SideNavBar(),
+      drawer: SideNavBar(
+        money:money.toString(),
+
+        name: name.toString(),
+        profileUrl: profileUrl.toString(),
+        level: level.toString(),
+        rank: rank.toString(),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10),
