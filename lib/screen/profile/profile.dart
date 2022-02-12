@@ -6,9 +6,9 @@ class Profile extends StatefulWidget {
   String? rank;
   String? level;
   String? money;
-  Profile({
+  Profile({Key? key,
     this.name,this.profileUrl,this.level,this.rank,this.money
-  });
+  }) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -30,7 +30,7 @@ class _ProfileState extends State<Profile> {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              height: MediaQuery.of(context).size.height / 3.3,
+              height: MediaQuery.of(context).size.height / 3.2,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20),
@@ -41,7 +41,7 @@ class _ProfileState extends State<Profile> {
                   Stack(
                     children: [
                       CircleAvatar(
-                        radius: 60,
+                        radius: 55,
                         backgroundImage: NetworkImage(widget.profileUrl.toString())
                       ),
                       Positioned(
@@ -59,7 +59,7 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                   Text(
-                   widget.name.toString(),
+                   widget.name!.toString(),
                     style: const TextStyle(fontSize: 25, color: Colors.white),
                   ),
                   const Divider(
