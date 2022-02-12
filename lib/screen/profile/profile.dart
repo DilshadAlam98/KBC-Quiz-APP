@@ -6,9 +6,9 @@ class Profile extends StatefulWidget {
   String? rank;
   String? level;
   String? money;
-  Profile({Key? key,
+  Profile({
     this.name,this.profileUrl,this.level,this.rank,this.money
-  }) : super(key: key);
+  });
 
   @override
   _ProfileState createState() => _ProfileState();
