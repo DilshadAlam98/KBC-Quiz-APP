@@ -1,10 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quiz_app/screen/profile/profile.dart';
 import 'package:quiz_app/service/auth.dart';
+import 'package:quiz_app/service/local_db.dart';
 
-class SideNavBar extends StatelessWidget {
+class SideNavBar extends StatefulWidget {
   String? name;
   String? profileUrl;
   String? rank;
@@ -13,38 +15,62 @@ class SideNavBar extends StatelessWidget {
 
   SideNavBar({this.name, this.profileUrl, this.level, this.rank, this.money});
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-  GoogleSignIn googleSignIn = GoogleSignIn();
+  @override
+  State<SideNavBar> createState() => _SideNavBarState();
+}
+
+class _SideNavBarState extends State<SideNavBar> {
+  String? profileImage;
+
+  void getImageDetails() async {
+    profileImage = await LocalDb.getProfilePicCamera();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getImageDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Colors.amberAccent,
+        color: Colors.blue,
         child: ListView(
           children: [
             GestureDetector(
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                var shouldRefresh = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => Profile(
-                        name: name,
-                        rank: rank,
-                        level: level,
-                        profileUrl: profileUrl,
+                        name: widget.name,
+                        rank: widget.rank,
+                        level: widget.level,
+                        profileUrl: widget.profileUrl,
                       ),
                     ));
+                if (shouldRefresh == true) {
+                  getImageDetails();
+                }
               },
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(profileUrl.toString()),
-                      radius: 40,
-                    ),
+                    profileImage != null
+                        ? CircleAvatar(
+                            radius: 40,
+                            backgroundImage: FileImage(File(profileImage!)),
+                          )
+                        : CircleAvatar(
+                            radius: 40,
+                            backgroundImage:
+                                NetworkImage(widget.profileUrl.toString())),
                     const SizedBox(
                       width: 20,
                     ),
@@ -53,29 +79,50 @@ class SideNavBar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "$name",
+                          "${widget.name}",
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                              color: Colors.white),
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        Text("Rs.${money.toString()}")
+                        Text(
+                          "Rs.${widget.money.toString()}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.white),
+                        )
                       ],
                     )
                   ],
                 ),
               ),
             ),
+            Divider(
+              color: Colors.yellow,
+              endIndent: 20,
+              indent: 20,
+            ),
             Container(
               padding: const EdgeInsets.only(left: 25),
               child: Text(
-                "LeaderBoard-Rank #${rank.toString()}",
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                "LeaderBoard-Rank #${widget.rank.toString()}",
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.white),
               ),
             ),
             const SizedBox(
-              height: 40,
+              height: 5,
+            ),
+            Divider(
+              color: Colors.yellow,
+              endIndent: 20,
+              indent: 20,
             ),
             ListItem(
               label: "Daily Quiz",
@@ -126,7 +173,7 @@ class SideNavBar extends StatelessWidget {
         hoverColor: hoverColor,
         title: Text(
           label,
-          style:const TextStyle(color: color),
+          style: const TextStyle(color: color),
         ),
         onTap: onTap);
   }

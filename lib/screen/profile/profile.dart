@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:quiz_app/service/local_db.dart';
 
 class Profile extends StatefulWidget {
   String? name;
@@ -6,31 +10,49 @@ class Profile extends StatefulWidget {
   String? rank;
   String? level;
   String? money;
-  Profile({
-    this.name,this.profileUrl,this.level,this.rank,this.money
-  });
+
+  Profile({this.name, this.profileUrl, this.level, this.rank, this.money});
 
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  String? profileImage;
+  bool shouldRefresh=true;
+
+  void getImageDetails() async {
+    profileImage = await LocalDb.getProfilePicCamera();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getImageDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
         centerTitle: true,
-        actions: const [
-          Icon(Icons.share)
-        ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop(shouldRefresh);
+          },
+        ),
+        actions: const [Icon(Icons.share)],
       ),
       body: SafeArea(
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              height: MediaQuery.of(context).size.height / 3.3,
+              height: MediaQuery.of(context).size.height / 3.2,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20),
@@ -40,35 +62,45 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Stack(
                     children: [
-                      CircleAvatar(
-                        radius: 55,
-                        backgroundImage: NetworkImage(widget.profileUrl.toString())
-                      ),
+                      profileImage != null
+                          ? CircleAvatar(
+                              radius: 55,
+                              backgroundImage: FileImage(File(profileImage!)),
+                            )
+                          : CircleAvatar(
+                              radius: 55,
+                              backgroundImage:
+                                  NetworkImage(widget.profileUrl.toString())),
                       Positioned(
                         bottom: 5.0,
                         right: 0.0,
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white
+                        child: InkWell(
+                          onTap: () {
+                            modelBottomSheet(context);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: const Icon(
+                              Icons.edit,
+                            ),
                           ),
-                          child: const Icon(Icons.edit,),
                         ),
                       )
                     ],
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Text(
-                   widget.name.toString(),
+                    widget.name.toString(),
                     style: const TextStyle(fontSize: 25, color: Colors.white),
                   ),
                   const Divider(
                     thickness: 1,
                     endIndent: 20,
                     indent: 20,
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -153,5 +185,74 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> modelBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      backgroundColor: Colors.blue,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      context: context,
+      builder: (context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            title: const Text(
+              "Image from Camera",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+            trailing: const Icon(
+              Icons.camera,
+              color: Colors.white,
+              size: 30,
+            ),
+            onTap: () async {
+              await _getFromCamera();
+            },
+          ),
+          ListTile(
+            title: const Text(
+              "Image from Gallery",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+            trailing: const Icon(
+              Icons.photo,
+              color: Colors.white,
+              size: 30,
+            ),
+            onTap: () async {
+              await _getFromGallery();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Get from gallery
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      LocalDb.saveProfilePicCamera(pickedFile.path);
+      getImageDetails();
+    }
+  }
+
+  /// Get from Camera
+  _getFromCamera() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      LocalDb.saveProfilePicCamera(pickedFile.path);
+      getImageDetails();
+    }
   }
 }

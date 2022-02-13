@@ -7,6 +7,8 @@ class LocalDb {
   static const moneyKey = "ui4536fddKey";
   static const nameKEy = "d5465w564e5ffy44";
   static const profileUrlkey = "d5465w544364ss64e5ffy44";
+  static const profilelocalImage = "d5465w3453544364ss64e5ffy44";
+
 
   /// Saving User ID in Shared Preferences
   static Future<bool> saveUserID(String uid) async {
@@ -21,7 +23,6 @@ class LocalDb {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.getString(uidKey);
   }
-
 
   /// Saving Rank  in Shared Preferences
   static Future<bool> saveRank(String rank) async {
@@ -47,6 +48,7 @@ class LocalDb {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.getString(levelKey);
   }
+
   /// Saving money in Shared Preferences
   static Future<bool> saveMoney(String money) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -66,6 +68,7 @@ class LocalDb {
     print("SAVED USER ID in PREFENCES ${name}");
     return await preferences.setString(nameKEy, name);
   }
+
   /// getting name from Shared Preferences
   static Future<String?> getName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -85,7 +88,19 @@ class LocalDb {
     return await preferences.getString(profileUrlkey);
   }
 
+  /// Saving Profile Picture url in Shared Preferences
+  static Future<bool> saveProfilePicCamera(String imageFile) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    print("SAVED IMAGE PATH TO PREFENCES ${imageFile}");
+    return await preferences.setString(profilelocalImage, imageFile);
+  }
 
+  /// getting ProfilePicture url from Shared Preferences
+  static Future<String?> getProfilePicCamera() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    print("GET IMAGE PATH FROM PREFERENCES");
+    return await preferences.getString(profilelocalImage);
+  }
 
   /// Deleting User ID in Shared Preferences
 
