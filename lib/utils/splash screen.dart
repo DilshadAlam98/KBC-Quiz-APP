@@ -6,6 +6,7 @@ import 'package:quiz_app/screen/ui/home.dart';
 import 'package:quiz_app/screen/ui/login.dart';
 import 'package:quiz_app/screen/ui/question.dart';
 import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/utils/permission_handeler.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,9 +17,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  //Your animation controller
+
   late AnimationController _controller;
   late Animation<double> animation;
+
+  PermissionHandler permissionHandler=PermissionHandler();
 
   @override
   void initState() {
@@ -41,6 +44,8 @@ class _SplashScreenState extends State<SplashScreen>
     //               : const Login()));
     // });
     chekUser();
+    permissionHandler.requestCameraPermission();
+    permissionHandler.requestStorafePermission();
   }
 
   @override

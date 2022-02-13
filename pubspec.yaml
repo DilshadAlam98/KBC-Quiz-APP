@@ -47,6 +47,8 @@ dependencies:
   confetti:
   slider_side_menu:
   image_picker:
+  firebase_storage:
+  permission_handler:
 
 dev_dependencies:
   flutter_test:

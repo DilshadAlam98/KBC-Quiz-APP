@@ -89,14 +89,14 @@ class LocalDb {
   }
 
   /// Saving Profile Picture url in Shared Preferences
-  static Future<bool> saveProfilePicCamera(String imageFile) async {
+  static Future<bool> saveLocalProfilePic(String imageFile) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     print("SAVED IMAGE PATH TO PREFENCES ${imageFile}");
     return await preferences.setString(profilelocalImage, imageFile);
   }
 
   /// getting ProfilePicture url from Shared Preferences
-  static Future<String?> getProfilePicCamera() async {
+  static Future<String?> getLocalProfilePic() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     print("GET IMAGE PATH FROM PREFERENCES");
     return await preferences.getString(profilelocalImage);

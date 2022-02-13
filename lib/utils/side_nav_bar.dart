@@ -23,7 +23,7 @@ class _SideNavBarState extends State<SideNavBar> {
   String? profileImage;
 
   void getImageDetails() async {
-    profileImage = await LocalDb.getProfilePicCamera();
+    profileImage = await LocalDb.getLocalProfilePic();
     setState(() {});
   }
 

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/utils/permission_handeler.dart';
 import 'package:quiz_app/utils/side_nav_bar.dart';
 
 class Home extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomeState extends State<Home> {
   String? level;
   String? money;
 
+  PermissionHandler permissionHandler=PermissionHandler();
   getUserDetails() async {
     name = await LocalDb.getName();
     profileUrl = await LocalDb.getProfileUrl();
@@ -32,6 +34,8 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     getUserDetails();
+    permissionHandler.requestStorafePermission();
+    permissionHandler.requestCameraPermission();
   }
 
   @override

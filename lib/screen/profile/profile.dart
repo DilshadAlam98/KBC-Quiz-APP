@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:quiz_app/service/fire_storage.dart';
 import 'package:quiz_app/service/local_db.dart';
 
 class Profile extends StatefulWidget {
@@ -19,10 +20,10 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   String? profileImage;
-  bool shouldRefresh=true;
+  bool shouldRefresh = true;
 
   void getImageDetails() async {
-    profileImage = await LocalDb.getProfilePicCamera();
+    profileImage = await LocalDb.getLocalProfilePic();
     setState(() {});
   }
 
@@ -40,7 +41,7 @@ class _ProfileState extends State<Profile> {
         title: const Text("Profile"),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop(shouldRefresh);
           },
@@ -238,8 +239,9 @@ class _ProfileState extends State<Profile> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      LocalDb.saveProfilePicCamera(pickedFile.path);
+      LocalDb.saveLocalProfilePic(pickedFile.path);
       getImageDetails();
+
     }
   }
 
@@ -251,7 +253,7 @@ class _ProfileState extends State<Profile> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      LocalDb.saveProfilePicCamera(pickedFile.path);
+      LocalDb.saveLocalProfilePic(pickedFile.path);
       getImageDetails();
     }
   }
