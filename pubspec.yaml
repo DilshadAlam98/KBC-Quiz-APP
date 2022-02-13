@@ -46,6 +46,7 @@ dependencies:
   fluttertoast:
   confetti:
   slider_side_menu:
+  image_picker:
 
 dev_dependencies:
   flutter_test:

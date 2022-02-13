@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     name = await LocalDb.getName();
     profileUrl = await LocalDb.getProfileUrl();
     rank = await LocalDb.getRank();
-    money= await LocalDb.getMoney();
+    money = await LocalDb.getMoney();
     print(money);
     level = await LocalDb.getLevel();
     setState(() {});
@@ -38,11 +38,10 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Colors.blue,
       ),
       drawer: SideNavBar(
-        money:money.toString(),
-
+        money: money.toString(),
         name: name.toString(),
         profileUrl: profileUrl.toString(),
         level: level.toString(),

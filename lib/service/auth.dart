@@ -57,5 +57,5 @@ signOutUser(BuildContext context) async {
         builder: (context) => Login(),
       ));
 
-  LocalDb.deleteUser();
+  // LocalDb.deleteUser();
 }
