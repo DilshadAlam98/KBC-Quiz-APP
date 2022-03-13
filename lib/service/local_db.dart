@@ -1,14 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalDb {
+class Helper {
   static const uidKey = "s4985734hjd";
   static const rankKey = "jjd8494jdg";
   static const levelKey = "jjd8494ds5546jdg";
   static const moneyKey = "ui4536fddKey";
   static const nameKEy = "d5465w564e5ffy44";
+  static const emailKEy = "d5465w56ds4e5ffy44";
   static const profileUrlkey = "d5465w544364ss64e5ffy44";
   static const profilelocalImage = "d5465w3453544364ss64e5ffy44";
-
 
   /// Saving User ID in Shared Preferences
   static Future<bool> saveUserID(String uid) async {
@@ -16,6 +16,7 @@ class LocalDb {
     print("SAVED USER ID in PREFENCES ${uid}");
     return await preferences.setString(uidKey, uid);
   }
+
 
   /// GettingUser ID in Shared Preferences
 
@@ -88,6 +89,22 @@ class LocalDb {
     return await preferences.getString(profileUrlkey);
   }
 
+
+
+  ///Save Email ID to preferences
+  static Future<bool> saveEmail(String email) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    print("/// Email sved to prefrences");
+    return await preferences.setString(emailKEy, email);
+  }
+
+  /// Get email from preferences
+
+  static Future<String?> getEmail() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.getString(emailKEy);
+  }
+
   /// Saving Profile Picture url in Shared Preferences
   static Future<bool> saveLocalProfilePic(String imageFile) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -106,6 +123,7 @@ class LocalDb {
 
   static Future<bool> deleteUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    print("////Prefenreces cleared/////////");
     return preferences.clear();
   }
 }

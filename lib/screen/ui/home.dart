@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/screen/profile/model/model.dart';
+import 'package:quiz_app/screen/profile/profile_bloc/bloc.dart';
 import 'package:quiz_app/service/local_db.dart';
 import 'package:quiz_app/utils/permission_handeler.dart';
 import 'package:quiz_app/utils/side_nav_bar.dart';
@@ -12,28 +14,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String? name;
-  String? profileUrl;
-  String? rank;
-  String? level;
-  String? money;
 
   PermissionHandler permissionHandler=PermissionHandler();
-  getUserDetails() async {
-    name = await LocalDb.getName();
-    profileUrl = await LocalDb.getProfileUrl();
-    rank = await LocalDb.getRank();
-    money = await LocalDb.getMoney();
-    print(money);
-    level = await LocalDb.getLevel();
-    setState(() {});
-  }
 
+  UserProfileBloc userProfileBloc=UserProfileBloc();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getUserDetails();
+    userProfileBloc.fetchUserData();
     permissionHandler.requestStorafePermission();
     permissionHandler.requestCameraPermission();
   }
@@ -44,12 +32,15 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
       ),
-      drawer: SideNavBar(
-        money: money.toString(),
-        name: name.toString(),
-        profileUrl: profileUrl.toString(),
-        level: level.toString(),
-        rank: rank.toString(),
+      drawer: StreamBuilder<UserModel?>(
+        stream: userProfileBloc.userModel,
+        builder: (context, snapshot) =>SideNavBar(
+          money: snapshot.data?.amount??"",
+          name: snapshot.data?.name??'',
+          profileUrl:snapshot.data?.photoUrl??"",
+          level: snapshot.data?.level??"",
+          rank:snapshot.data?.rank??"",
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(

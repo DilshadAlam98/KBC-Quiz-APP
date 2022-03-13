@@ -23,7 +23,7 @@ class _ProfileState extends State<Profile> {
   bool shouldRefresh = true;
 
   void getImageDetails() async {
-    profileImage = await LocalDb.getLocalProfilePic();
+    profileImage = await Helper.getLocalProfilePic();
     setState(() {});
   }
 
@@ -160,15 +160,20 @@ class _ProfileState extends State<Profile> {
                 itemBuilder: (context, index) {
                   return ListTile(
                       title: Row(
-                        children: const [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                "https://images.unsplash.com/photo-1644269444230-c6d1f2722e10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2MXx8fGVufDB8fHx8&auto=format&fit=crop&w=1100&q=60"),
-                          ),
+                        children:  [
+                          profileImage != null
+                              ? CircleAvatar(
+                            radius: 20,
+                            backgroundImage: FileImage(File(profileImage!)),
+                          )
+                              : CircleAvatar(
+                              radius: 20,
+                              backgroundImage:
+                              NetworkImage(widget.profileUrl.toString())),
                           SizedBox(
                             width: 5,
                           ),
-                          Text("Dilshad"),
+                          Text(widget.name??""),
                         ],
                       ),
                       leading: Text(
@@ -239,7 +244,7 @@ class _ProfileState extends State<Profile> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      LocalDb.saveLocalProfilePic(pickedFile.path);
+      Helper.saveLocalProfilePic(pickedFile.path);
       getImageDetails();
 
     }
@@ -253,7 +258,7 @@ class _ProfileState extends State<Profile> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      LocalDb.saveLocalProfilePic(pickedFile.path);
+      Helper.saveLocalProfilePic(pickedFile.path);
       getImageDetails();
     }
   }

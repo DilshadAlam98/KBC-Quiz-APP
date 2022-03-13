@@ -1,29 +1,35 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:quiz_app/screen/profile/data_source/user_profile_ds.dart';
 import 'package:quiz_app/screen/profile/profile.dart';
+import 'package:quiz_app/screen/profile/profile_bloc/bloc.dart';
 import 'package:quiz_app/service/auth.dart';
 import 'package:quiz_app/service/local_db.dart';
 
 class SideNavBar extends StatefulWidget {
-  String? name;
-  String? profileUrl;
-  String? rank;
-  String? level;
-  String? money;
+  String profileUrl;
+  String name;
+  String money;
+  String level;
+  String rank;
 
-  SideNavBar({this.name, this.profileUrl, this.level, this.rank, this.money});
+  SideNavBar({
+    required this.profileUrl,
+    required this.name,
+    required this.money,
+    required this.rank,
+    required this.level,
+  });
 
   @override
   State<SideNavBar> createState() => _SideNavBarState();
 }
 
 class _SideNavBarState extends State<SideNavBar> {
-  String? profileImage;
+  var profile;
 
-  void getImageDetails() async {
-    profileImage = await LocalDb.getLocalProfilePic();
+  void getImageData() async {
+    profile = await Helper.getLocalProfilePic();
     setState(() {});
   }
 
@@ -31,7 +37,7 @@ class _SideNavBarState extends State<SideNavBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getImageDetails();
+    getImageData();
   }
 
   @override
@@ -54,7 +60,7 @@ class _SideNavBarState extends State<SideNavBar> {
                       ),
                     ));
                 if (shouldRefresh == true) {
-                  getImageDetails();
+                  getImageData();
                 }
               },
               child: Container(
@@ -62,13 +68,13 @@ class _SideNavBarState extends State<SideNavBar> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Row(
                   children: [
-                    profileImage != null
+                    profile != null
                         ? CircleAvatar(
-                            radius: 40,
-                            backgroundImage: FileImage(File(profileImage!)),
+                            radius: 45,
+                            backgroundImage: FileImage(File(profile)),
                           )
                         : CircleAvatar(
-                            radius: 40,
+                            radius: 45,
                             backgroundImage:
                                 NetworkImage(widget.profileUrl.toString())),
                     const SizedBox(

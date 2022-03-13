@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/screen/profile/profile_bloc/bloc.dart';
 import 'package:quiz_app/screen/ui/home.dart';
 import 'package:quiz_app/screen/ui/login.dart';
 import 'package:quiz_app/screen/ui/question.dart';
@@ -46,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
     chekUser();
     permissionHandler.requestCameraPermission();
     permissionHandler.requestStorafePermission();
+    UserProfileBloc().fetchUserData();
   }
 
   @override
@@ -87,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void chekUser() async {
     String? token;
-    token = await LocalDb.getUserID();
+    token = await Helper.getUserID();
 
     Future.delayed(Duration(seconds: 4), () {
       if (token != "" && token != null) {

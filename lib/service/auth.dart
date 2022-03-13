@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quiz_app/screen/ui/home.dart';
 import 'package:quiz_app/screen/ui/login.dart';
 import 'package:quiz_app/service/local_db.dart';
-import 'fire_db.dart';
+import 'helper_fuction.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 GoogleSignIn googleSignIn = GoogleSignIn();
@@ -38,9 +38,9 @@ Future<User?> signinWithGoogle(BuildContext context) async {
         ));
     fireDb.createNewUser(user!.displayName.toString(), user.email.toString(),
         user.photoURL.toString(), user.uid);
-    LocalDb.saveUserID(user.uid);
-    LocalDb.saveName(currentUSer.displayName.toString());
-    LocalDb.saveProfileUrl(currentUSer.photoURL.toString());
+    Helper.saveUserID(user.uid);
+    // Helper.saveName(currentUSer.displayName.toString());
+    // Helper.saveProfileUrl(currentUSer.photoURL.toString());
   } catch (e) {
     Fluttertoast.showToast(msg: "Something went wrong");
     print("ERROR OCCURED IN SIGN IN $e");
@@ -57,5 +57,6 @@ signOutUser(BuildContext context) async {
         builder: (context) => Login(),
       ));
 
-  // LocalDb.deleteUser();
+  Helper.deleteUser();
+
 }
