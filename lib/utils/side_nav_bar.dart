@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/config/app_config.dart';
+import 'package:quiz_app/config/size_config.dart';
 import 'package:quiz_app/screen/profile/data_source/user_profile_ds.dart';
 import 'package:quiz_app/screen/profile/profile.dart';
 import 'package:quiz_app/screen/profile/profile_bloc/bloc.dart';
 import 'package:quiz_app/service/auth.dart';
-import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/service/helper_function.dart';
 
 class SideNavBar extends StatefulWidget {
   String profileUrl;
@@ -44,7 +47,7 @@ class _SideNavBarState extends State<SideNavBar> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Colors.blue,
+        color:AppThemeConfig.appBackGroundColour,
         child: ListView(
           children: [
             GestureDetector(
@@ -65,7 +68,7 @@ class _SideNavBarState extends State<SideNavBar> {
               },
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                     EdgeInsets.symmetric(horizontal: SizeConfig.defaultSize!*1.4, vertical: SizeConfig.defaultSize!*1.4),
                 child: Row(
                   children: [
                     profile != null
@@ -75,10 +78,10 @@ class _SideNavBarState extends State<SideNavBar> {
                           )
                         : CircleAvatar(
                             radius: 45,
-                            backgroundImage:
-                                NetworkImage(widget.profileUrl.toString())),
-                    const SizedBox(
-                      width: 20,
+                            backgroundImage:CachedNetworkImageProvider(widget.profileUrl.toString())),
+                                // NetworkImage(widget.profileUrl.toString())),
+                     SizedBox(
+                      width:SizeConfig.defaultSize!*1.6,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -86,20 +89,14 @@ class _SideNavBarState extends State<SideNavBar> {
                       children: [
                         Text(
                           "${widget.name}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: Colors.white),
+                            style: AppThemeConfig.mainTitle2,
                         ),
-                        const SizedBox(
-                          width: 10,
+                         SizedBox(
+                          width: SizeConfig.defaultSize!*1,
                         ),
                         Text(
                           "Rs.${widget.money.toString()}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white),
+                          style: AppThemeConfig.title,
                         )
                       ],
                     )
@@ -108,7 +105,7 @@ class _SideNavBarState extends State<SideNavBar> {
               ),
             ),
             Divider(
-              color: Colors.yellow,
+              color: AppThemeConfig.tittleColor,
               endIndent: 20,
               indent: 20,
             ),
@@ -116,10 +113,7 @@ class _SideNavBarState extends State<SideNavBar> {
               padding: const EdgeInsets.only(left: 25),
               child: Text(
                 "LeaderBoard-Rank #${widget.rank.toString()}",
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.white),
+                style: AppThemeConfig.mainTitle,
               ),
             ),
             const SizedBox(
@@ -169,17 +163,16 @@ class _SideNavBarState extends State<SideNavBar> {
       required IconData icon,
       required BuildContext context,
       required VoidCallback onTap}) {
-    const color = Colors.white;
     const hoverColor = Colors.white60;
     return ListTile(
         leading: Icon(
           icon,
-          color: color,
+          color: AppThemeConfig.iconColor,
         ),
         hoverColor: hoverColor,
         title: Text(
           label,
-          style: const TextStyle(color: color),
+          style:AppThemeConfig.title,
         ),
         onTap: onTap);
   }

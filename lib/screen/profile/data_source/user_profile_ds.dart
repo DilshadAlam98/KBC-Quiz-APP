@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quiz_app/screen/profile/model/model.dart';
-import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/service/helper_function.dart';
 
 class UserDataProfile {
   final FirebaseAuth auth = FirebaseAuth.instance;

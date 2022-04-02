@@ -1,9 +1,10 @@
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:quiz_app/service/fire_storage.dart';
-import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/config/app_config.dart';
+import 'package:quiz_app/config/size_config.dart';
+import 'package:quiz_app/service/helper_function.dart';
 
 class Profile extends StatefulWidget {
   String? name;
@@ -38,6 +39,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppThemeConfig.appBarColor,
         title: const Text("Profile"),
         centerTitle: true,
         leading: IconButton(
@@ -54,11 +56,11 @@ class _ProfileState extends State<Profile> {
             Container(
               padding: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height / 3.2,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(20),
                       bottomLeft: Radius.circular(20)),
-                  color: Colors.blue),
+                  color: AppThemeConfig.appBackgrounfColor2),
               child: Column(
                 children: [
                   Stack(
@@ -70,8 +72,8 @@ class _ProfileState extends State<Profile> {
                             )
                           : CircleAvatar(
                               radius: 55,
-                              backgroundImage:
-                                  NetworkImage(widget.profileUrl.toString())),
+                              backgroundImage: CachedNetworkImageProvider(
+                                  widget.profileUrl.toString())),
                       Positioned(
                         bottom: 5.0,
                         right: 0.0,
@@ -81,10 +83,12 @@ class _ProfileState extends State<Profile> {
                           },
                           child: Container(
                             padding: const EdgeInsets.all(5),
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            child: const Icon(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppThemeConfig.buttonColor),
+                            child: Icon(
                               Icons.edit,
+                              color: AppThemeConfig.iconColor,
                             ),
                           ),
                         ),
@@ -110,32 +114,26 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Text(
                             widget.level.toString(),
-                            style: const TextStyle(
-                                fontSize: 30,
+                            style: TextStyle(
+                                color: AppThemeConfig.tittleColor,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                                fontSize: getFont(27)),
                           ),
                           Text(
                             "Level",
-                            style: TextStyle(
-                                fontSize: 19,
-                                color: Colors.white.withOpacity(0.9),
-                                fontWeight: FontWeight.bold),
+                            style: AppThemeConfig.title,
                           )
                         ],
                       ),
                       Column(
                         children: [
-                          Text("#${widget.rank}",
-                              style: const TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
-                          Text("Rank",
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  color: Colors.white.withOpacity(0.9),
-                                  fontWeight: FontWeight.bold)),
+                          Text(
+                            "#${widget.rank}",
+                            style: TextStyle(
+                                color: AppThemeConfig.tittleColor,
+                                fontSize: getFont(27)),
+                          ),
+                          Text("Rank", style: AppThemeConfig.title),
                         ],
                       )
                     ],
@@ -143,13 +141,12 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(height: SizeConfig.defaultSize! * 2),
+            Text(
+              "---------------Leader Board---------------",
+              style: AppThemeConfig.mainTitle,
             ),
-            const Text(
-              "Learder Board",
-              style: TextStyle(fontSize: 20),
-            ),
+            SizedBox(height: SizeConfig.defaultSize! * 1.3),
             Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
@@ -159,34 +156,43 @@ class _ProfileState extends State<Profile> {
                 itemCount: 12,
                 itemBuilder: (context, index) {
                   return ListTile(
-                      title: Row(
-                        children:  [
-                          profileImage != null
-                              ? CircleAvatar(
-                            radius: 20,
-                            backgroundImage: FileImage(File(profileImage!)),
-                          )
-                              : CircleAvatar(
-                              radius: 20,
-                              backgroundImage:
-                              NetworkImage(widget.profileUrl.toString())),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(widget.name??""),
-                        ],
-                      ),
-                      leading: Text(
-                        "#${index + 1}",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      trailing: Text(
-                        (2000 / (index + 1)).toString().substring(0, 5),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ));
+                    title: Row(
+                      children: [
+                        profileImage != null
+                            ? CircleAvatar(
+                                radius: 25,
+                                backgroundImage: FileImage(File(profileImage!)),
+                              )
+                            : CircleAvatar(
+                                radius: 25,
+                                backgroundImage:
+                                    NetworkImage(widget.profileUrl.toString())),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(widget.name ?? "", style: AppThemeConfig.detail),
+                      ],
+                    ),
+                    leading: Text(
+                      "#${index + 1}",
+                      style: AppThemeConfig.detail,
+                    ),
+                    trailing: Text(
+                      (2000 / (index + 1)).toString().substring(0, 5),
+                      style: AppThemeConfig.detail,
+                    ),
+                  );
                 },
               ),
-            )
+            ),
+            ElevatedButton(
+                clipBehavior: Clip.none,
+                style: ElevatedButton.styleFrom(
+                    primary: AppThemeConfig.buttonColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                onPressed: () {},
+                child: Text("Show Position"))
           ],
         ),
       ),
@@ -195,7 +201,7 @@ class _ProfileState extends State<Profile> {
 
   Future<dynamic> modelBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-      backgroundColor: Colors.blue,
+      backgroundColor: AppThemeConfig.buttomSheetColor,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
@@ -246,7 +252,6 @@ class _ProfileState extends State<Profile> {
     if (pickedFile != null) {
       Helper.saveLocalProfilePic(pickedFile.path);
       getImageDetails();
-
     }
   }
 

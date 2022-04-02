@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:quiz_app/config/app_config.dart';
 import 'package:quiz_app/screen/profile/profile.dart';
 import 'package:quiz_app/screen/ui/question.dart';
 import 'package:quiz_app/screen/ui/runner_up_screen.dart';
@@ -17,8 +18,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const OverlaySupport.global(
+    return  OverlaySupport.global(
       child: MaterialApp(
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppThemeConfig.appBackGroundColour,
+          // backgroundColor: AppThemeConfig.appBackGroundColour
+        ),
         debugShowCheckedModeBanner: false,
         home:  SplashScreen(),
       ),

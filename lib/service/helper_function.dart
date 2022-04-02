@@ -9,6 +9,7 @@ class Helper {
   static const emailKEy = "d5465w56ds4e5ffy44";
   static const profileUrlkey = "d5465w544364ss64e5ffy44";
   static const profilelocalImage = "d5465w3453544364ss64e5ffy44";
+  static const quizIdKey = "sjsdfhka3395jd";
 
   /// Saving User ID in Shared Preferences
   static Future<bool> saveUserID(String uid) async {
@@ -16,7 +17,6 @@ class Helper {
     print("SAVED USER ID in PREFENCES ${uid}");
     return await preferences.setString(uidKey, uid);
   }
-
 
   /// GettingUser ID in Shared Preferences
 
@@ -89,8 +89,6 @@ class Helper {
     return await preferences.getString(profileUrlkey);
   }
 
-
-
   ///Save Email ID to preferences
   static Future<bool> saveEmail(String email) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -99,7 +97,6 @@ class Helper {
   }
 
   /// Get email from preferences
-
   static Future<String?> getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return await preferences.getString(emailKEy);
@@ -126,4 +123,16 @@ class Helper {
     print("////Prefenreces cleared/////////");
     return preferences.clear();
   }
+
+  // /// Save Quiz Id
+  // static Future<bool> saveQuizId(String quizId) async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   return await preferences.setString(quizIdKey, quizId);
+  // }
+  //
+  // /// Get Quiz Id
+  // static Future<String?> getQuizId() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   return await preferences.getString(quizIdKey);
+  // }
 }

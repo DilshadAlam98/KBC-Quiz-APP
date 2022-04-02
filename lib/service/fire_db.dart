@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/service/helper_function.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
