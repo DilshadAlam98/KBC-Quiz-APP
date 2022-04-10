@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/config/app_config.dart';
 import 'package:quiz_app/config/size_config.dart';
 import 'package:quiz_app/screen/profile/data_source/user_profile_ds.dart';
-import 'package:quiz_app/screen/profile/profile.dart';
+import 'package:quiz_app/screen/profile/ui/profile.dart';
 import 'package:quiz_app/screen/profile/profile_bloc/bloc.dart';
 import 'package:quiz_app/service/auth.dart';
 import 'package:quiz_app/service/helper_function.dart';
 
 class SideNavBar extends StatefulWidget {
-  String profileUrl;
-  String name;
-  String money;
-  String level;
-  String rank;
+  String? profileUrl;
+  String? name;
+  String? money;
+  String? level;
+  String? rank;
 
   SideNavBar({
-    required this.profileUrl,
-    required this.name,
-    required this.money,
-    required this.rank,
-    required this.level,
+     this.profileUrl,
+     this.name,
+     this.money,
+     this.rank,
+     this.level,
   });
 
   @override

@@ -6,7 +6,7 @@ import 'package:quiz_app/config/app_config.dart';
 import 'package:quiz_app/screen/profile/profile_bloc/bloc.dart';
 import 'package:quiz_app/screen/home/home.dart';
 import 'package:quiz_app/screen/ui/login.dart';
-import 'package:quiz_app/screen/ui/question.dart';
+import 'package:quiz_app/screen/question/question_page.dart';
 import 'package:quiz_app/service/helper_function.dart';
 import 'package:quiz_app/utils/permission_handeler.dart';
 

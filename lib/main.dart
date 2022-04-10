@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:quiz_app/config/app_config.dart';
-import 'package:quiz_app/screen/profile/profile.dart';
-import 'package:quiz_app/screen/ui/question.dart';
+import 'package:quiz_app/screen/profile/ui/profile.dart';
+import 'package:quiz_app/screen/question/question_page.dart';
 import 'package:quiz_app/screen/ui/runner_up_screen.dart';
-import 'package:quiz_app/utils/splash%20screen.dart';
+import 'package:quiz_app/widget/splash%20screen.dart';
 Future<void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

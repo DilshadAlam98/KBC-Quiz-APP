@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   String? amount;
   String? email;
@@ -16,4 +18,14 @@ class UserModel {
     this.rank,
     this.uid,
   });
+
+  UserModel.fromJson(DocumentSnapshot<Object?> doc) {
+    photoUrl = doc['photoUrl'];
+    name = doc['name'];
+    amount = doc['amount'];
+    email = doc['email'];
+    rank = doc['rank'];
+    level = doc['level'];
+    uid = doc["uid"];
+  }
 }

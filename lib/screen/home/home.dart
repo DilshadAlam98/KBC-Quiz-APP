@@ -10,7 +10,7 @@ import 'package:quiz_app/screen/quizes/model/jee_quiz_model.dart';
 import 'package:quiz_app/screen/quizes/quiz_bloc/jee_quizes_bloc.dart';
 import 'package:quiz_app/screen/ui/quiz_intro_page.dart';
 import 'package:quiz_app/utils/permission_handeler.dart';
-import 'package:quiz_app/utils/side_nav_bar.dart';
+import 'package:quiz_app/widget/side_nav_bar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

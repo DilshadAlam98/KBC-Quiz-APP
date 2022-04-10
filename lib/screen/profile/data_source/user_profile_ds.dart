@@ -14,18 +14,9 @@ class UserDataProfile {
         FirebaseFirestore.instance.collection('user');
     try {
       var userData = await reference.doc(auth.currentUser!.uid).get();
-      // var user = userData.data();
-      // print(user);
-      userModel = UserModel(
-          photoUrl: userData['photoUrl'],
-          name: userData['name'],
-          amount: userData['amount'],
-          email: userData['email'],
-          rank: userData['rank'],
-          level: userData['level'],
-          uid: userData["uid"],
-      );
+      userModel = UserModel.fromJson(userData);
 
+      /// Saving credential  in shared preferences
       Helper.saveProfileUrl(userData['photoUrl']);
       Helper.saveName(userData['name']);
       Helper.saveMoney(userData['amount']);

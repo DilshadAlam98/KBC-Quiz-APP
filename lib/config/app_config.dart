@@ -14,6 +14,7 @@ class AppThemeConfig {
   static Color appBackgrounfColor2 = const Color(0xff17182b);
   static Color buttonColor = const Color(0xff3b4451);
   static Color buttomSheetColor = const Color(0xff5e6671);
+  static Color redColor = const Color(0xffA52A2A);
 
   ///Light Theme configuration
   static final lightTheme = ThemeData(

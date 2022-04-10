@@ -52,6 +52,9 @@ dependencies:
   rxdart:
   flutter_bloc:
   cached_network_image: ^3.2.0
+  equatable:
+  awesome_dialog:
+
 
 dev_dependencies:
   flutter_test:

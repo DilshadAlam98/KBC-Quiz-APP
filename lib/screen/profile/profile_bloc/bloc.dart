@@ -13,3 +13,8 @@ class UserProfileBloc {
     _userModel.add(await userProfileRepo.fetchUserData());
   }
 }
+
+
+
+
+
