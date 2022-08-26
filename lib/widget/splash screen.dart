@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/screen/ui/home.dart';
+import 'package:quiz_app/config/app_config.dart';
+import 'package:quiz_app/screen/profile/profile_bloc/bloc.dart';
+import 'package:quiz_app/screen/home/home.dart';
 import 'package:quiz_app/screen/ui/login.dart';
-import 'package:quiz_app/screen/ui/question.dart';
-import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/screen/question/question_page.dart';
+import 'package:quiz_app/service/helper_function.dart';
 import 'package:quiz_app/utils/permission_handeler.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,35 +48,28 @@ class _SplashScreenState extends State<SplashScreen>
     chekUser();
     permissionHandler.requestCameraPermission();
     permissionHandler.requestStorafePermission();
+    UserProfileBloc().fetchUserData();
   }
 
   @override
   Widget build(BuildContext context) {
     _controller.forward();
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const QuestionPage(),
-        ));
-        // Navigator.pushNamed(context, MyHomePage.id);
-      },
-      child: Container(
-        color: Colors.amberAccent,
-        child: Center(
-            child: Hero(
-          tag: "heroLogo",
-          //FadeTransition makes your image Fade
-          child: FadeTransition(
-            //Use your animation here
-            opacity: animation,
-            child: const CircleAvatar(
-              //Here you load you image
-              backgroundImage: AssetImage("asset/img/kbc.png",),
-              radius: 170,
-            ),
+    return Container(
+      color:AppThemeConfig.appBackGroundColour,
+      child: Center(
+          child: Hero(
+        tag: "heroLogo",
+        //FadeTransition makes your image Fade
+        child: FadeTransition(
+          //Use your animation here
+          opacity: animation,
+          child: const CircleAvatar(
+            //Here you load you image
+            backgroundImage: AssetImage("asset/img/kbc.png",),
+            radius: 170,
           ),
-        )),
-      ),
+        ),
+      )),
     );
   }
 
@@ -87,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void chekUser() async {
     String? token;
-    token = await LocalDb.getUserID();
+    token = await Helper.getUserID();
 
     Future.delayed(Duration(seconds: 4), () {
       if (token != "" && token != null) {

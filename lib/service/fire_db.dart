@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quiz_app/service/local_db.dart';
+import 'package:quiz_app/service/helper_function.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -18,9 +18,9 @@ class FireDb {
       print(current_user.uid);
 
       /// saving deatils to preferences after fetching from firebase
-      LocalDb.saveLevel("1");
-      LocalDb.saveRank("45");
-      LocalDb.saveMoney("5000");
+      // Helper.saveLevel("1");
+      // Helper.saveRank("45");
+      // Helper.saveMoney("5000");
 
       /// checking if data is null  in firebase then data will seet else the data will fetch from existing user
       print("DATA VALUE---${value.data()}");
@@ -29,18 +29,21 @@ class FireDb {
             .collection("user")
             .doc(current_user.uid)
             .set({
+          "uid":uid,
           "name": name,
           "email": email,
           "photoUrl": photoUrl,
-          "amount": '5000'
+          "amount": '5000',
+          "level": "1",
+          "rank": "1"
         }).then((value) {
           print("USER REGISTERED SUCCESSFULL ");
         });
 
         /// saving deatils to preferences when new  user is creating in firebase
-        LocalDb.saveLevel("1");
-        LocalDb.saveRank("45");
-        LocalDb.saveMoney("5000");
+        // Helper.saveLevel("1");
+        // Helper.saveRank("45");
+        // Helper.saveMoney("5000");
       }
     }).onError((error, stackTrace) async {
       print("UserId not exist");

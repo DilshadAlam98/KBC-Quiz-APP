@@ -1,44 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quiz_app/config/app_config.dart';
+import 'package:quiz_app/screen/question/question_cubit.dart';
+import 'package:quiz_app/screen/question/question_model.dart';
+import 'package:quiz_app/screen/question/question_response.dart';
+import 'package:quiz_app/screen/question/state.dart';
 import 'package:quiz_app/screen/ui/life_line.dart';
+import 'package:quiz_app/utils/alert_message.dart';
 import 'package:slider_side_menu/slider_side_menu.dart';
 
 class QuestionPage extends StatefulWidget {
-  const QuestionPage({Key? key}) : super(key: key);
+  String? quizId;
+  int? queMoney;
+
+  QuestionPage({this.quizId, this.queMoney});
 
   @override
   _QuestionPageState createState() => _QuestionPageState();
 }
 
 class _QuestionPageState extends State<QuestionPage> {
+
   @override
   Widget build(BuildContext context) {
-    var hieght = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return Container(
-      height: hieght,
-      width: width,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage(
-                "asset/img/background.png",
-              ))),
+    final questionRepo = QuestionRepo();
+    return BlocProvider<QuestionCubit>(
+      create: (context) => QuestionCubit(questionRepo)
+        ..getQuestion(quizId: widget.quizId!, queMoney: widget.queMoney!),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppThemeConfig.appBackGroundColour,
         appBar: AppBar(
+          backgroundColor: AppThemeConfig.appBarColor,
           title: const Text("Rs. 20000"),
           centerTitle: true,
         ),
-        drawer:LifeLineDrawer(),
+        drawer: LifeLineDrawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: Colors.teal
-          ),
-          onPressed: () {
-
-          },
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              primary: AppThemeConfig.buttonColor),
+          onPressed: () {},
           child: Text("Quit Game"),
         ),
         body: Column(
@@ -49,8 +54,7 @@ class _QuestionPageState extends State<QuestionPage> {
               width: 100,
               child: Stack(
                 fit: StackFit.expand,
-                children:  [
-
+                children: [
                   Center(
                       child: Text(
                     "46",
@@ -69,16 +73,26 @@ class _QuestionPageState extends State<QuestionPage> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 30, right: 30, bottom: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              child: const Text(
-                "Which of the Following FrameWork Supports Dart Language ?",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24),
-              ),
+
+            BlocConsumer<QuestionCubit, QuestionState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+               if (state is QuestionStateCompleted) {
+                  return Container(
+                    margin: EdgeInsets.only(left: 30, right: 30, bottom: 10),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Text(
+                      state.questionsModel?.question ?? "",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  );
+                }
+                return Container();
+              },
             ),
             question_option("A. C++", Colors.red),
             question_option("B. Flutter", Colors.green),
